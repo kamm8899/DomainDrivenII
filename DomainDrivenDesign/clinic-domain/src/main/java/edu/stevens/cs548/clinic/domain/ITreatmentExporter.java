@@ -20,5 +20,5 @@ public interface ITreatmentExporter<T> {
 
 	public T exportPhysiotherapy(UUID tid, UUID patientId, String patientName, UUID providerId, String providerName,
 			String diagnosis, List<LocalDate> dates, Supplier<Collection<T>> followups);
-	
+
 }

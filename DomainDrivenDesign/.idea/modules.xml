@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/DomainDrivenDesign.iml" filepath="$PROJECT_DIR$/.idea/DomainDrivenDesign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clinic-domain/clinic-domain.iml" filepath="$PROJECT_DIR$/clinic-domain/clinic-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clinic-init0/clinic-init0.iml" filepath="$PROJECT_DIR$/clinic-init0/clinic-init0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clinic-root/clinic-root.iml" filepath="$PROJECT_DIR$/clinic-root/clinic-root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clinic-webapp0/clinic-webapp0.iml" filepath="$PROJECT_DIR$/clinic-webapp0/clinic-webapp0.iml" />
+    </modules>
+  </component>
+</project>

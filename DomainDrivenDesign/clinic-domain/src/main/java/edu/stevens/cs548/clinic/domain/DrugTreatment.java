@@ -1,28 +1,30 @@
 package edu.stevens.cs548.clinic.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import java.io.Serializable;
 import java.time.LocalDate;
-
 
 /**
  * Entity implementation class for Entity: DrugTreatment
  * 
  */
 // TODO JPA annotations
+@Entity
+@Table(name = "DrugTreatment")
 public class DrugTreatment extends Treatment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String drug;
-	
+
 	private float dosage;
 
-    // TODO
 	private LocalDate startDate;
 
-    // TODO
 	private LocalDate endDate;
-	
+
 	private int frequency;
 
 	public String getDrug() {
@@ -64,21 +66,20 @@ public class DrugTreatment extends Treatment implements Serializable {
 	public void setFrequency(int frequency) {
 		this.frequency = frequency;
 	}
-	
 
 	public <T> T export(ITreatmentExporter<T> visitor) {
 		return visitor.exportDrugTreatment(treatmentId,
-										   patient.getPatientId(),
-										   patient.getName(),
-										   provider.getProviderId(),
-										   provider.getName(),
-								   		   diagnosis,
-								   		   drug, 
-								   		   dosage,
-								   		   startDate,
-								   		   endDate,
-								   		   frequency,
-								   		   () -> exportFollowupTreatments(visitor));
+				patient.getPatientId(),
+				patient.getName(),
+				provider.getProviderId(),
+				provider.getName(),
+				diagnosis,
+				drug,
+				dosage,
+				startDate,
+				endDate,
+				frequency,
+				() -> exportFollowupTreatments(visitor));
 	}
 
 	public DrugTreatment() {
