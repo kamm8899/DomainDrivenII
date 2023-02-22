@@ -24,7 +24,7 @@ public class ProviderDao implements IProviderDao {
 	private EntityManager em;
 	
 	// TODO
-	@Transient
+	@Inject
 	private ITreatmentDao treatmentDao;
 
 	private Logger logger = Logger.getLogger(ProviderDao.class.getCanonicalName());

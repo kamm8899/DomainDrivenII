@@ -138,9 +138,8 @@ public class Provider implements Serializable, ITreatmentImporter {
 		 */
 		// Set forward and backward links
 		treatments.add(t);
-		if (t.getProvider() != this) {
+		//if (t.getProvider() != this)
 			t.setProvider(this);
-		}
 	}
 
 	// TODO

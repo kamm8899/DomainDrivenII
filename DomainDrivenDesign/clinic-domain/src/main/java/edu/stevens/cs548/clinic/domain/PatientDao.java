@@ -4,9 +4,9 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import jakarta.persistence.Transient;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import edu.stevens.cs548.clinic.domain.ClinicDomainProducer.ClinicDomain;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,11 +19,11 @@ public class PatientDao implements IPatientDao {
 
 	// TODO
 	@Inject
-	@ClinicDomainProducer.ClinicDomain
+	@ClinicDomain
 	private EntityManager em;
 
 	// TODO
-	@Transient
+	@Inject
 	private ITreatmentDao treatmentDao;
 
 	private static final Logger logger = Logger.getLogger(PatientDao.class.getCanonicalName());

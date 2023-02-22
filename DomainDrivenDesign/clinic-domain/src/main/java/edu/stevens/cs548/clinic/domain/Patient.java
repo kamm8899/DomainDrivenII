@@ -24,7 +24,7 @@ import java.util.UUID;
 
 // TODO
 @Entity
-@Table(indexes = @Index(columnList = "patient"))
+@Table(indexes = @Index(columnList = "patientId"))
 public class Patient implements Serializable {
 
 	private static final long serialVersionUID = -4512912599605407549L;

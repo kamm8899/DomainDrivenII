@@ -1,12 +1,6 @@
 package edu.stevens.cs548.clinic.service.init;
 
-import edu.stevens.cs548.clinic.domain.IPatientDao;
-import edu.stevens.cs548.clinic.domain.IProviderDao;
-import edu.stevens.cs548.clinic.domain.ITreatmentExporter;
-import edu.stevens.cs548.clinic.domain.Patient;
-import edu.stevens.cs548.clinic.domain.PatientFactory;
-import edu.stevens.cs548.clinic.domain.Provider;
-import edu.stevens.cs548.clinic.domain.ProviderFactory;
+import edu.stevens.cs548.clinic.domain.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Singleton;
@@ -26,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
@@ -87,34 +82,73 @@ public class InitBean implements ITreatmentExporter<Void> {
 			john.setDob(LocalDate.parse("1995-08-15"));
 			patientDao.addPatient(john);
 
+			Patient charles = patientFactory.createPatient();
+			charles.setPatientId(UUID.randomUUID());
+			charles.setName("Charles Porter");
+			charles.setDob(LocalDate.parse("1989-08-22"));
+			patientDao.addPatient(charles);
+
 			Provider jane = providerFactory.createProvider();
 			jane.setProviderId(UUID.randomUUID());
 			jane.setName("Jane Doe");
 			jane.setNpi("1234");
 			providerDao.addProvider(jane);
 
+			//adding another provider
+			Provider lin = providerFactory.createProvider();
+			lin.setProviderId(UUID.randomUUID());
+			lin.setName("Lin Chou");
+			lin.setNpi("1236");
+			providerDao.addProvider(lin);
+
+
+
+
 			jane.importDrugTreatment(UUID.randomUUID(), john, jane, "Headache", "Aspirin", 10,
+					LocalDate.ofInstant(Instant.now(), ZONE_ID), LocalDate.ofInstant(Instant.now(), ZONE_ID),
+					3, null);
+			lin.importDrugTreatment(UUID.randomUUID(), charles, lin, "Couch", "Theraflu", 300,
 					LocalDate.ofInstant(Instant.now(), ZONE_ID), LocalDate.ofInstant(Instant.now(), ZONE_ID),
 					3, null);
 
 			// TODO add more testing, including treatments and providers
 			// add radiology to john
-			List<LocalDate> radiologyDates = new ArrayList<>();
-			radiologyDates.add(LocalDate.of(2023, 1, 8));
-			radiologyDates.add(LocalDate.of(2023, 1, 16));
-			radiologyDates.add(LocalDate.of(2023, 1, 24));
+			ArrayList<LocalDate> radiologyDates= new ArrayList<LocalDate>();
+			radiologyDates.add(LocalDate.parse("2023-01-08"));
+			radiologyDates.add(LocalDate.parse("2023-01-18"));
+			radiologyDates.add(LocalDate.parse("2023-01-24"));
 			jane.importRadiology(UUID.randomUUID(), john, jane, "sick", radiologyDates, null);
+
+			//charles
+			radiologyDates.clear();
+			radiologyDates.add(LocalDate.parse("2023-02-08"));
+			radiologyDates.add(LocalDate.parse("2023-03-16"));
+			radiologyDates.add(LocalDate.parse("2023-03-24"));
+			lin.importRadiology(UUID.randomUUID(), charles, lin, "radialogy needed", radiologyDates, null);
+
 
 			// add surgery treatment to john
 			jane.importSurgery(UUID.randomUUID(), john, jane, "sick", LocalDate.of(2023, 2, 2), "rest", null);
 
+			//charles physiotherapyDates
+			ArrayList<LocalDate> physiotherapyDates= new ArrayList<LocalDate>();
+			physiotherapyDates.add(LocalDate.parse("2023-02-08"));
+			physiotherapyDates.add(LocalDate.parse("2023-02-23"));
+			physiotherapyDates.add(LocalDate.parse("2023-02-28"));
+			lin.importSurgery(UUID.randomUUID(), charles, lin, "broken leg", LocalDate.of(2023, 4, 2), "rest",jane.importPhysiotherapy(UUID.randomUUID(), john, jane, "sick", physiotherapyDates, null));
+
 			// add physiotherapy treatment to john
-			List<LocalDate> physiotherapyDates = new ArrayList<>();
-			physiotherapyDates.add(LocalDate.of(2023, 2, 8));
-			physiotherapyDates.add(LocalDate.of(2023, 2, 16));
-			physiotherapyDates.add(LocalDate.of(2023, 2, 24));
+			physiotherapyDates.clear();
+			physiotherapyDates.add(LocalDate.parse("2023-02-02"));
+			physiotherapyDates.add(LocalDate.parse("2023-02-16"));
+			physiotherapyDates.add(LocalDate.parse("2023-02-24"));
 			jane.importPhysiotherapy(UUID.randomUUID(), john, jane, "sick", physiotherapyDates, null);
 
+			physiotherapyDates.clear();
+			physiotherapyDates.add(LocalDate.parse("2023-03-08"));
+			physiotherapyDates.add(LocalDate.parse("2023-03-16"));
+			physiotherapyDates.add(LocalDate.parse("2023-03-24"));
+			lin.importPhysiotherapy(UUID.randomUUID(), charles, lin, "need Physiotherapy sick", physiotherapyDates, null);
 			// Now show in the logs what has been added
 
 			Collection<Patient> patients = patientDao.getPatients();
@@ -129,6 +163,7 @@ public class InitBean implements ITreatmentExporter<Void> {
 				logger.info(String.format("Provider %s, ID %s", p.getName(), p.getProviderId().toString()));
 				p.exportTreatments(this);
 			}
+
 
 		} catch (Exception e) {
 			;
